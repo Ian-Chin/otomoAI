@@ -14,7 +14,7 @@ export default function SocialProof() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 stagger-children">
         {stats.map((stat) => (
           <FadeUp key={stat.label} className="text-center group">
-            <p className="text-3xl sm:text-4xl font-heading font-bold gradient-text transition-transform duration-300 group-hover:scale-105">{stat.value}</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold gradient-text transition-transform duration-300 group-hover:scale-105">{stat.value}</p>
             <p className="text-sm text-gray-500 mt-2 tracking-wide">{stat.label}</p>
           </FadeUp>
         ))}

@@ -39,7 +39,7 @@ export default function Navbar() {
               width={160}
               height={80}
               priority
-              className={`w-auto transition-all duration-500 ${scrolled ? 'h-10' : 'h-20'}`}
+              className={`w-auto transition-all duration-500 ${scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'}`}
             />
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">

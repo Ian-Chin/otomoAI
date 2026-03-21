@@ -11,11 +11,11 @@ export default function AdminSuite() {
   return (
     <section className="py-28 relative" id="how-it-works">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeUp>
             <p className="text-brand-400 font-semibold text-sm uppercase tracking-[0.2em] mb-4">Back-Office Automation</p>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-              The AI Admin<br /><span className="gradient-text">Back-Office Suite</span>
+              The AI Admin {' '}<span className="gradient-text">Back-Office Suite</span>
             </h2>
             <p className="text-gray-400 mb-10 leading-relaxed">
               Automate proposals, invoicing, AP/AR, and timetable management — no admin staff needed. otomoAI handles the paperwork so you can handle the engines.

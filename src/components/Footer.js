@@ -5,10 +5,10 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 pt-16 pb-10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-14">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mb-14">
           <div>
             <Link href="/" className="inline-block mb-5">
-              <Image src="/images/logo.png" alt="otomoAI" width={96} height={48} className="h-20 w-auto" loading="lazy" />
+              <Image src="/images/logo.png" alt="otomoAI" width={96} height={48} className="h-14 sm:h-20 w-auto" loading="lazy" />
             </Link>
             <p className="text-sm text-gray-500 leading-relaxed">
               AI-powered automation suite for auto workshops and premium bike mechanics. Built to help you close more, admin less.

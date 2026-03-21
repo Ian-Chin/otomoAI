@@ -40,12 +40,12 @@ export default function ProblemSection() {
         <FadeUp className="text-center mb-20">
           <p className="text-brand-400 font-semibold text-sm uppercase tracking-[0.2em] mb-4">The Problem</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Running a Workshop Shouldn&apos;t Mean<br /><span className="gradient-text">Drowning in Admin</span>
+            Running a Workshop Shouldn&apos;t Mean {' '}<span className="gradient-text">Drowning in Admin</span>
           </h2>
         </FadeUp>
         <div className="grid md:grid-cols-3 gap-6 stagger-children">
           {problems.map((p) => (
-            <FadeUp key={p.title} className="glass rounded-2xl p-8 card-hover group">
+            <FadeUp key={p.title} className="glass rounded-2xl p-5 sm:p-8 card-hover group">
               <div className={`w-12 h-12 rounded-xl ${p.iconBg} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110`}>
                 {p.icon}
               </div>

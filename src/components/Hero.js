@@ -12,7 +12,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center hero-glow overflow-hidden">
+    <section className="relative min-h-screen flex items-center hero-glow overflow-hidden">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute top-1/4 -right-32 w-[500px] h-[500px] bg-brand-600/8 rounded-full blur-[100px] transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} />
@@ -20,7 +20,7 @@ export default function Hero() {
         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-900/10 rounded-full blur-[120px] transition-opacity duration-1500 delay-500 ${mounted ? 'opacity-100' : 'opacity-0'}`} />
       </div>
 
-      <div className="w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div className="w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
         <div className="px-6 lg:pl-[max(3rem,calc((100vw-80rem)/2+3rem))] lg:pr-0">
           {/* Badge */}
           <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass text-sm text-fire-400 mb-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
@@ -31,7 +31,7 @@ export default function Hero() {
           </div>
 
           {/* Heading */}
-          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
             <span className={`block transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
               Stop Losing Leads.
             </span>
@@ -44,7 +44,7 @@ export default function Hero() {
           </h1>
 
           {/* Description */}
-          <p className={`text-lg text-gray-400 max-w-xl mb-10 leading-relaxed transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <p className={`text-base sm:text-lg text-gray-400 max-w-xl mb-10 leading-relaxed transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             otomoAI is the all-in-one AI admin suite that captures leads from Facebook &amp; WhatsApp, books appointments instantly, and follows up automatically — so you can focus on what you do best: <strong className="text-white font-medium">building incredible machines.</strong>
           </p>
 
@@ -61,7 +61,7 @@ export default function Hero() {
         </div>
 
         {/* Hero image */}
-        <FadeUp className="relative flex justify-end">
+        <FadeUp className="relative hidden lg:flex justify-end">
           <div className="relative">
             {/* Red glow behind image */}
             <div className="absolute inset-4 bg-gradient-to-br from-brand-600/10 via-fire-500/8 to-transparent rounded-full blur-[20px] -z-10 pointer-events-none" />

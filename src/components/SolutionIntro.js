@@ -48,7 +48,7 @@ export default function SolutionIntro() {
         <FadeUp>
           <p className="text-brand-400 font-semibold text-sm uppercase tracking-[0.2em] mb-4">The Solution</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-            Meet <span className="gradient-text">otomoAI</span> — Your Workshop&apos;s<br />AI Back-Office
+            Meet <span className="gradient-text">otomoAI</span> — Your Workshop&apos;s AI Back-Office
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             A complete suite of AI-powered tools designed specifically for auto workshops and premium bike mechanics. From the first ad click to the five-star review.
@@ -56,7 +56,7 @@ export default function SolutionIntro() {
         </FadeUp>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-16 stagger-children">
           {features.map((f) => (
-            <FadeUp key={f.title} className="glass rounded-2xl p-6 card-hover text-center group">
+            <FadeUp key={f.title} className="glass rounded-2xl p-5 sm:p-6 card-hover text-center group">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-600 to-fire-500 flex items-center justify-center mx-auto mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                 {f.icon}
               </div>

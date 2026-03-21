@@ -32,19 +32,19 @@ export default function ModVisualizer() {
             <Sparkles className="w-4 h-4" /> Unique Feature — Powered by Gemini
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-            AI Modification<br /><span className="gradient-text">Visualizer</span>
+            AI Modification {' '}<span className="gradient-text">Visualizer</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Let customers see their car with proposed modifications before they buy. Upsell with full transparency — and watch your ticket size soar.
           </p>
         </FadeUp>
-        <div className="grid lg:grid-cols-3 gap-6 stagger-children">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
           {cards.map((card) => {
             const Icon = card.icon;
             return (
               <FadeUp
                 key={card.title}
-                className={`glass rounded-2xl p-8 card-hover text-center group ${card.highlight ? 'ring-1 ring-brand-500/20' : ''}`}
+                className={`glass rounded-2xl p-5 sm:p-8 card-hover text-center group ${card.highlight ? 'ring-1 ring-brand-500/20' : ''}`}
               >
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-600/15 to-fire-500/15 ring-1 ring-white/5 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                   <Icon className="w-6 h-6 text-brand-400" />

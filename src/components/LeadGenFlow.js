@@ -23,7 +23,7 @@ export default function LeadGenFlow() {
     <section className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-900/5 to-transparent pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeUp className="order-2 lg:order-1">
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-green-500/5 to-brand-600/5 rounded-[2rem] blur-xl" />
@@ -65,7 +65,7 @@ export default function LeadGenFlow() {
           <FadeUp className="order-1 lg:order-2">
             <p className="text-brand-400 font-semibold text-sm uppercase tracking-[0.2em] mb-4">Flow 1</p>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-              Automated Lead Generation<br />& <span className="gradient-text">Instant Booking</span>
+              Automated Lead Generation & <span className="gradient-text">Instant Booking</span>
             </h2>
             <p className="text-gray-400 mb-8 leading-relaxed">
               From Facebook ad click to confirmed appointment — fully automated. Your AI handles the entire funnel while you focus on the workshop floor.

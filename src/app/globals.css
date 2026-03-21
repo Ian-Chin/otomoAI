@@ -205,7 +205,7 @@ html {
 
 /* ── Buttons ── */
 .btn-primary {
-  @apply inline-block px-7 py-3.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white font-semibold;
+  @apply inline-block px-5 py-3 sm:px-7 sm:py-3.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white font-semibold;
   box-shadow: 0 0 30px rgba(220, 38, 38, 0.2);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
@@ -236,7 +236,7 @@ html {
 }
 
 .btn-secondary {
-  @apply px-7 py-3.5 rounded-full border border-white/10 text-gray-300 font-semibold;
+  @apply px-5 py-3 sm:px-7 sm:py-3.5 rounded-full border border-white/10 text-gray-300 font-semibold;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;

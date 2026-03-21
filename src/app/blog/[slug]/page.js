@@ -100,7 +100,7 @@ export default function BlogPost({ params }) {
         <div className="absolute inset-0 hero-glow pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Layout: TOC sidebar + article */}
-          <div className="flex gap-12 justify-center">
+          <div className="flex gap-6 lg:gap-12 justify-center">
             {/* Main article column */}
             <article className="max-w-3xl w-full min-w-0">
               {/* Breadcrumb */}
@@ -136,7 +136,7 @@ export default function BlogPost({ params }) {
                     <span className="text-xs text-gray-600">{post.readTime}</span>
                   </div>
 
-                  <h1 className="font-heading text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight mb-8">
+                  <h1 className="font-heading text-2xl sm:text-3xl lg:text-[2.75rem] font-bold text-white leading-tight mb-8">
                     {post.title}
                   </h1>
 
@@ -164,7 +164,7 @@ export default function BlogPost({ params }) {
               {/* Cover image */}
               {post.cover && (
                 <FadeUp>
-                  <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden mb-12">
+                  <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden mb-12">
                     <Image
                       src={post.cover}
                       alt={post.coverAlt || post.title}
@@ -291,7 +291,7 @@ export default function BlogPost({ params }) {
       <section className="pb-28 relative">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeUp>
-            <div className="glass-strong rounded-3xl p-12">
+            <div className="glass-strong rounded-3xl p-6 sm:p-8 lg:p-12">
               <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-4">
                 Ready to automate your workshop?
               </h2>

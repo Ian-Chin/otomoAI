@@ -40,7 +40,7 @@ export default function Testimonials() {
         </FadeUp>
         <div className="grid md:grid-cols-3 gap-6 stagger-children">
           {testimonials.map((t) => (
-            <FadeUp key={t.initials} className="glass rounded-2xl p-8 card-hover relative group">
+            <FadeUp key={t.initials} className="glass rounded-2xl p-5 sm:p-8 card-hover relative group">
               <div className="flex gap-0.5 mb-5 text-yellow-400 text-sm tracking-wider">★★★★★</div>
               <p className="text-gray-300 leading-relaxed mb-8 text-[15px]">{t.quote}</p>
               <div className="flex items-center gap-3 mt-auto">

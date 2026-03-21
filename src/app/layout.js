@@ -16,7 +16,7 @@ const manrope = Manrope({
 export const metadata = {
   title: 'otomoAI — AI-Powered Workshop Automation for Auto & Bike Mechanics',
   description:
-    'otomoAI is the all-in-one AI admin suite for auto workshops and premium bike mechanics. Capture leads from Facebook & WhatsApp, automate proposals, invoicing and scheduling, and grow your 5-star reputation on autopilot.',
+    'AI admin suite for auto workshops and bike mechanics. Capture leads, automate invoicing & scheduling, and grow your reputation on autopilot.',
   keywords: [
     'auto workshop management',
     'AI workshop automation',
@@ -45,6 +45,10 @@ export const metadata = {
     description:
       'The all-in-one AI admin suite for auto workshops. Capture leads, automate invoicing, and grow your reputation on autopilot.',
     creator: '@otomoai',
+  },
+  icons: {
+    icon: '/images/6.png',
+    apple: '/images/6.png',
   },
   robots: {
     index: true,

@@ -31,8 +31,9 @@ export default function ComparisonTable() {
           </h2>
         </FadeUp>
         <FadeUp>
-          <div className="glass-strong rounded-2xl overflow-hidden">
-            <div className="grid grid-cols-4 gap-0 text-sm">
+          <p className="text-sm text-gray-500 text-center mb-3 sm:hidden">Swipe to compare →</p>
+          <div className="glass-strong rounded-2xl overflow-hidden overflow-x-auto">
+            <div className="grid grid-cols-4 gap-0 text-sm min-w-[500px]">
               {/* Header */}
               <div className="p-4 font-medium text-gray-500 border-b border-white/5 text-xs uppercase tracking-wider">Feature</div>
               <div className="p-4 font-bold text-center text-white border-b border-white/5 bg-brand-600/8">
