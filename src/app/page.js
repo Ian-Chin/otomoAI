@@ -9,12 +9,13 @@ import PostServiceCRM from '@/components/PostServiceCRM';
 import ModVisualizer from '@/components/ModVisualizer';
 import ComparisonTable from '@/components/ComparisonTable';
 import Testimonials from '@/components/Testimonials';
+import FAQ from '@/components/FAQ';
 import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <>
+    <div className="grain">
       <Navbar />
       <Hero />
       <SocialProof />
@@ -26,8 +27,9 @@ export default function Home() {
       <ModVisualizer />
       <ComparisonTable />
       <Testimonials />
+      <FAQ />
       <CTA />
       <Footer />
-    </>
+    </div>
   );
 }

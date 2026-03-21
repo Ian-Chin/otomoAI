@@ -9,15 +9,17 @@ export default function SocialProof() {
   ];
 
   return (
-    <section className="relative z-10 py-12 border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <section className="relative z-10 py-16">
+      <div className="section-divider mb-16" />
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 stagger-children">
         {stats.map((stat) => (
-          <FadeUp key={stat.label}>
-            <p className="text-3xl font-heading font-bold gradient-text">{stat.value}</p>
-            <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+          <FadeUp key={stat.label} className="text-center group">
+            <p className="text-3xl sm:text-4xl font-heading font-bold gradient-text transition-transform duration-300 group-hover:scale-105">{stat.value}</p>
+            <p className="text-sm text-gray-500 mt-2 tracking-wide">{stat.label}</p>
           </FadeUp>
         ))}
       </div>
+      <div className="section-divider mt-16" />
     </section>
   );
 }

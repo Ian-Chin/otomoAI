@@ -15,39 +15,57 @@ export default function Navbar() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'nav-scrolled' : ''}`}>
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-3">
-          <span className="font-heading text-2xl font-bold text-white flex items-center gap-2">
-            <span className="gradient-text">otomo</span><span>AI</span>
-          </span>
-        </a>
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-          <a href="#features" className="hover:text-white transition">Features</a>
-          <a href="#how-it-works" className="hover:text-white transition">How It Works</a>
-          <a href="#compare" className="hover:text-white transition">Compare</a>
-          <a href="#testimonials" className="hover:text-white transition">Testimonials</a>
-        </div>
-        <div className="flex items-center gap-4">
-          <a href="#cta" className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold hover:opacity-90 transition shadow-lg shadow-brand-600/20">
-            Book a Demo
+    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center transition-[padding] duration-500 ease-out ${scrolled ? 'pt-4 px-4' : ''}`}>
+      <nav
+        className={`w-full transition-all duration-500 ease-out ${scrolled ? 'nav-scrolled max-w-3xl' : ''}`}
+        style={{ borderRadius: scrolled ? '25px' : '0px' }}
+      >
+        <div className="mx-auto px-6 py-3 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-3 group">
+            <img
+              src="/images/logo.png"
+              alt="otomoAI"
+              className={`w-auto transition-all duration-500 ${scrolled ? 'h-10' : 'h-20'}`}
+            />
           </a>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+            <a href="#" className="link-hover hover:text-white transition-colors duration-300">Home</a>
+            <a href="#blog" className="link-hover hover:text-white transition-colors duration-300">Blog</a>
+            <a href="#about" className="link-hover hover:text-white transition-colors duration-300">About Us</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="#cta"
+              className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold hover:opacity-90 transition-all duration-300 shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:scale-[1.02]"
+            >
+              Book a Demo
+            </a>
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white" aria-label="Toggle menu">
+              <svg className={`w-6 h-6 transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
-      <div className={`${menuOpen ? '' : 'hidden'} md:hidden glass px-6 pb-4`}>
-        <a href="#features" onClick={closeMenu} className="block py-2 text-gray-300 hover:text-white">Features</a>
-        <a href="#how-it-works" onClick={closeMenu} className="block py-2 text-gray-300 hover:text-white">How It Works</a>
-        <a href="#compare" onClick={closeMenu} className="block py-2 text-gray-300 hover:text-white">Compare</a>
-        <a href="#testimonials" onClick={closeMenu} className="block py-2 text-gray-300 hover:text-white">Testimonials</a>
-        <a href="#cta" onClick={closeMenu} className="block mt-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold text-center">
-          Book a Demo
-        </a>
-      </div>
-    </nav>
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+            menuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="px-6 pb-4 space-y-1">
+            <a href="#" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Home</a>
+            <a href="#blog" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Blog</a>
+            <a href="#about" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">About Us</a>
+            <a href="#cta" onClick={closeMenu} className="block mt-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold text-center">
+              Book a Demo
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
   );
 }

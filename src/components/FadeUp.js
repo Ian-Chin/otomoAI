@@ -9,20 +9,26 @@ export default function FadeUp({ children, className = '' }) {
     const el = ref.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    // Start hidden only after JS hydrates
+    el.classList.add('pending');
 
-    observer.observe(el);
-    return () => observer.disconnect();
+    // Small delay to ensure the pending class applies before observing
+    requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.remove('pending');
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(el);
+    });
   }, []);
 
   return (

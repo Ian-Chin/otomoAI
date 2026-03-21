@@ -1,81 +1,76 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import FadeUp from './FadeUp';
 
 export default function Hero() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center pt-20 hero-glow">
+    <section className="relative h-screen flex items-center hero-glow overflow-hidden">
+      {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-fire-500/10 rounded-full blur-3xl"></div>
+        <div className={`absolute top-1/4 -right-32 w-[500px] h-[500px] bg-brand-600/8 rounded-full blur-[100px] transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} />
+        <div className={`absolute bottom-1/4 -left-32 w-[400px] h-[400px] bg-fire-500/8 rounded-full blur-[80px] transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`} />
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-900/10 rounded-full blur-[120px] transition-opacity duration-1500 delay-500 ${mounted ? 'opacity-100' : 'opacity-0'}`} />
       </div>
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-        <FadeUp>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm text-fire-400 mb-6">
-            <span className="w-2 h-2 rounded-full bg-fire-400 animate-pulse"></span>
+
+      <div className="w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="px-6 lg:pl-[max(3rem,calc((100vw-80rem)/2+3rem))] lg:pr-0">
+          {/* Badge */}
+          <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass text-sm text-fire-400 mb-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <span className="relative w-2 h-2 rounded-full bg-fire-400">
+              <span className="absolute inset-0 rounded-full bg-fire-400 animate-ping" />
+            </span>
             AI-Powered Workshop Management
           </div>
-          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-            Stop Losing Leads.<br />Start Closing Deals.<br /><span className="gradient-text">On Autopilot.</span>
+
+          {/* Heading */}
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+            <span className={`block transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              Stop Losing Leads.
+            </span>
+            <span className={`block transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              Start Closing Deals.
+            </span>
+            <span className={`block transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              <span className="gradient-text">On Autopilot.</span>
+            </span>
           </h1>
-          <p className="text-lg text-gray-400 max-w-xl mb-8 leading-relaxed">
-            otomoAI is the all-in-one AI admin suite that captures leads from Facebook &amp; WhatsApp, books appointments instantly, and follows up automatically — so you can focus on what you do best: <strong className="text-white">building incredible machines.</strong>
+
+          {/* Description */}
+          <p className={`text-lg text-gray-400 max-w-xl mb-10 leading-relaxed transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            otomoAI is the all-in-one AI admin suite that captures leads from Facebook &amp; WhatsApp, books appointments instantly, and follows up automatically — so you can focus on what you do best: <strong className="text-white font-medium">building incredible machines.</strong>
           </p>
-          <div className="flex flex-wrap gap-4">
-            <a href="#cta" className="px-7 py-3.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white font-semibold hover:opacity-90 transition shadow-lg shadow-brand-600/25 cta-glow">
+
+          {/* CTAs */}
+          <div className={`flex flex-wrap gap-4 transition-all duration-700 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <a href="#cta" className="btn-primary cta-glow">
               Book a Free Demo
             </a>
-            <a href="#how-it-works" className="px-7 py-3.5 rounded-full border border-gray-600 text-gray-300 font-semibold hover:border-gray-400 hover:text-white transition">
-              See How It Works →
+            <a href="#how-it-works" className="btn-secondary group">
+              See How It Works
+              <span className="inline-block ml-1 transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
           </div>
-        </FadeUp>
-        <FadeUp className="relative flex justify-center">
-          <div className="relative w-full max-w-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-600/20 to-fire-500/20 rounded-3xl blur-2xl"></div>
-            <div className="relative glass-strong rounded-3xl p-8 space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-brand-500"></div>
-                <div className="w-3 h-3 rounded-full bg-fire-400"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                <span className="ml-auto text-xs text-gray-500">otomoAI Dashboard</span>
-              </div>
-              <div className="glass rounded-xl p-4 shimmer">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-400">New Leads Today</span>
-                  <span className="text-2xl font-bold text-white">24</span>
-                </div>
-                <div className="mt-2 h-1.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 w-3/4"></div>
-              </div>
-              <div className="glass rounded-xl p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-400">Appointments Booked</span>
-                  <span className="text-2xl font-bold text-white">18</span>
-                </div>
-                <div className="mt-2 h-1.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 w-[60%]"></div>
-              </div>
-              <div className="glass rounded-xl p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-400">5-Star Reviews</span>
-                  <span className="text-2xl font-bold text-white">96%</span>
-                </div>
-                <div className="mt-2 flex gap-1">
-                  <span className="text-yellow-400">★★★★★</span>
-                </div>
-              </div>
-              <div className="glass rounded-xl p-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">WhatsApp — just now</p>
-                    <p className="text-sm text-gray-300">&quot;Hi, how much for a full brake service on my Civic?&quot;</p>
-                    <p className="text-xs text-green-400 mt-1">✓ AI responding...</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        </div>
+
+        {/* Hero image */}
+        <FadeUp className="relative flex justify-end">
+          <div className="relative">
+            {/* Red glow behind image */}
+            <div className="absolute inset-4 bg-gradient-to-br from-brand-600/10 via-fire-500/8 to-transparent rounded-full blur-[20px] -z-10 pointer-events-none" />
+            <img
+              src="/images/heroimg.png"
+              alt="otomoAI Dashboard Preview"
+              className="w-full lg:max-w-none lg:w-[55vw] rounded-l-3xl object-cover object-left"
+            />
+            {/* Right edge blur fade */}
+            <div className="absolute inset-y-0 right-0 w-[50%] bg-gradient-to-l from-[#08090E] via-[#08090E]/90 to-transparent pointer-events-none" />
           </div>
         </FadeUp>
       </div>
