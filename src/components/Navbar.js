@@ -1,14 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -21,25 +32,27 @@ export default function Navbar() {
         style={{ borderRadius: scrolled ? '25px' : '0px' }}
       >
         <div className="mx-auto px-6 py-3 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 group">
-            <img
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image
               src="/images/logo.png"
               alt="otomoAI"
+              width={160}
+              height={80}
+              priority
               className={`w-auto transition-all duration-500 ${scrolled ? 'h-10' : 'h-20'}`}
             />
-          </a>
+          </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a href="#" className="link-hover hover:text-white transition-colors duration-300">Home</a>
-            <a href="#blog" className="link-hover hover:text-white transition-colors duration-300">Blog</a>
-            <a href="#about" className="link-hover hover:text-white transition-colors duration-300">About Us</a>
+            <Link href="/" className="link-hover hover:text-white transition-colors duration-300">Home</Link>
+            <Link href="/blog" className="link-hover hover:text-white transition-colors duration-300">Blog</Link>
           </div>
           <div className="flex items-center gap-4">
-            <a
-              href="#cta"
+            <Link
+              href="/#cta"
               className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold hover:opacity-90 transition-all duration-300 shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:scale-[1.02]"
             >
               Book a Demo
-            </a>
+            </Link>
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white" aria-label="Toggle menu">
               <svg className={`w-6 h-6 transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {menuOpen ? (
@@ -57,12 +70,11 @@ export default function Navbar() {
           }`}
         >
           <div className="px-6 pb-4 space-y-1">
-            <a href="#" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Home</a>
-            <a href="#blog" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Blog</a>
-            <a href="#about" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">About Us</a>
-            <a href="#cta" onClick={closeMenu} className="block mt-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold text-center">
+            <Link href="/" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Home</Link>
+            <Link href="/blog" onClick={closeMenu} className="block py-2.5 text-gray-300 hover:text-white transition-colors">Blog</Link>
+            <Link href="/#cta" onClick={closeMenu} className="block mt-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-fire-500 text-white text-sm font-semibold text-center">
               Book a Demo
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

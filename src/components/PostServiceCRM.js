@@ -1,4 +1,7 @@
+'use client';
+
 import FadeUp from './FadeUp';
+import { CheckCircle2, MessageCircle, Star } from 'lucide-react';
 
 const bullets = [
   'Automatic follow-up after every service completion',
@@ -44,7 +47,7 @@ export default function PostServiceCRM() {
               <div className="glass rounded-xl p-4 hover:border-white/10 transition-colors duration-300">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-green-500/15 ring-1 ring-green-500/20 flex items-center justify-center">
-                    <span className="text-sm">✅</span>
+                    <CheckCircle2 className="w-4 h-4 text-green-400" />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-white">Service Completed: Full Detail — BMW M4</p>
@@ -55,7 +58,7 @@ export default function PostServiceCRM() {
               <div className="glass rounded-xl p-4 hover:border-white/10 transition-colors duration-300">
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-full bg-green-500/15 ring-1 ring-green-500/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm">💬</span>
+                    <MessageCircle className="w-4 h-4 text-green-400" />
                   </div>
                   <div>
                     <p className="text-sm text-white">Customer: &quot;Amazing work, car looks brand new!&quot;</p>
@@ -69,7 +72,7 @@ export default function PostServiceCRM() {
               <div className="glass rounded-xl p-4 ring-1 ring-yellow-500/15 hover:ring-yellow-500/25 transition-all duration-300">
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-full bg-yellow-500/15 ring-1 ring-yellow-500/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm">⭐</span>
+                    <Star className="w-4 h-4 text-yellow-400" />
                   </div>
                   <div>
                     <p className="text-sm text-white">Review request sent via WhatsApp</p>

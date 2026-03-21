@@ -1,17 +1,19 @@
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import SocialProof from '@/components/SocialProof';
-import ProblemSection from '@/components/ProblemSection';
-import SolutionIntro from '@/components/SolutionIntro';
-import AdminSuite from '@/components/AdminSuite';
-import LeadGenFlow from '@/components/LeadGenFlow';
-import PostServiceCRM from '@/components/PostServiceCRM';
-import ModVisualizer from '@/components/ModVisualizer';
-import ComparisonTable from '@/components/ComparisonTable';
-import Testimonials from '@/components/Testimonials';
-import FAQ from '@/components/FAQ';
-import CTA from '@/components/CTA';
-import Footer from '@/components/Footer';
+
+const ProblemSection = dynamic(() => import('@/components/ProblemSection'));
+const SolutionIntro = dynamic(() => import('@/components/SolutionIntro'));
+const AdminSuite = dynamic(() => import('@/components/AdminSuite'));
+const LeadGenFlow = dynamic(() => import('@/components/LeadGenFlow'));
+const PostServiceCRM = dynamic(() => import('@/components/PostServiceCRM'));
+const ModVisualizer = dynamic(() => import('@/components/ModVisualizer'));
+const ComparisonTable = dynamic(() => import('@/components/ComparisonTable'));
+const Testimonials = dynamic(() => import('@/components/Testimonials'));
+const FAQ = dynamic(() => import('@/components/FAQ'));
+const CTA = dynamic(() => import('@/components/CTA'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 export default function Home() {
   return (

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import FadeUp from './FadeUp';
 
 export default function Hero() {
@@ -64,9 +65,12 @@ export default function Hero() {
           <div className="relative">
             {/* Red glow behind image */}
             <div className="absolute inset-4 bg-gradient-to-br from-brand-600/10 via-fire-500/8 to-transparent rounded-full blur-[20px] -z-10 pointer-events-none" />
-            <img
+            <Image
               src="/images/heroimg.png"
               alt="otomoAI Dashboard Preview"
+              width={1200}
+              height={800}
+              priority
               className="w-full lg:max-w-none lg:w-[55vw] rounded-l-3xl object-cover object-left"
             />
             {/* Right edge blur fade */}

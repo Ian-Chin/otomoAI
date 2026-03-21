@@ -1,11 +1,14 @@
+'use client';
+
 import FadeUp from './FadeUp';
+import { Smartphone, Bot, Target, UserCheck, CalendarCheck } from 'lucide-react';
 
 const steps = [
-  { emoji: '📱', color: 'blue', label: 'Facebook Ad Click', desc: 'Customer taps "Get a Quote" on your ad' },
-  { emoji: '🤖', color: 'green', label: 'AI Chatbot Engages', desc: 'Answers FAQs: pricing, warranty, service times' },
-  { emoji: '🎯', color: 'yellow', label: 'Intent Detected', desc: 'AI qualifies the lead as high-purchase-intent' },
-  { emoji: '👤', color: 'purple', label: 'Routed to PIC', desc: 'Hot lead handed to your team for confirmation' },
-  { emoji: '📅', color: 'brand', label: 'Calendar Booked', desc: 'AI auto-blocks Google Calendar slot instantly' },
+  { icon: Smartphone, color: 'blue', label: 'Facebook Ad Click', desc: 'Customer taps "Get a Quote" on your ad' },
+  { icon: Bot, color: 'green', label: 'AI Chatbot Engages', desc: 'Answers FAQs: pricing, warranty, service times' },
+  { icon: Target, color: 'yellow', label: 'Intent Detected', desc: 'AI qualifies the lead as high-purchase-intent' },
+  { icon: UserCheck, color: 'purple', label: 'Routed to PIC', desc: 'Hot lead handed to your team for confirmation' },
+  { icon: CalendarCheck, color: 'brand', label: 'Calendar Booked', desc: 'AI auto-blocks Google Calendar slot instantly' },
 ];
 
 const bullets = [
@@ -33,6 +36,7 @@ export default function LeadGenFlow() {
                 </div>
                 <div className="space-y-0 flow-line">
                   {steps.map((step, i) => {
+                    const Icon = step.icon;
                     const colorMap = {
                       blue: { bg: 'bg-blue-500/15 ring-1 ring-blue-500/20', text: 'text-blue-400' },
                       green: { bg: 'bg-green-500/15 ring-1 ring-green-500/20', text: 'text-green-400' },
@@ -45,7 +49,7 @@ export default function LeadGenFlow() {
                     return (
                       <div key={step.label} className={`flex items-start gap-4 ${isLast ? '' : 'pb-6'} relative z-10 group`}>
                         <div className={`w-8 h-8 rounded-full ${c.bg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110`}>
-                          <span className={`${c.text} text-sm`}>{step.emoji}</span>
+                          <Icon className={`w-4 h-4 ${c.text}`} />
                         </div>
                         <div className="glass rounded-xl p-3 flex-1 transition-colors duration-300 group-hover:border-white/10">
                           <p className={`text-xs ${c.text} font-medium tracking-wide`}>{step.label}</p>
