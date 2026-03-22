@@ -28,6 +28,12 @@ export default function BlogIndex() {
       <Navbar />
       <section className="pt-40 pb-28 relative">
         <div className="absolute inset-0 hero-glow pointer-events-none" />
+        {/* Red flare */}
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[1400px] h-[1200px] pointer-events-none z-[1]"
+          style={{
+            background: 'radial-gradient(ellipse 65% 70% at 50% 0%, rgba(220,38,38,0.35) 0%, rgba(220,38,38,0.18) 30%, rgba(200,30,30,0.08) 55%, transparent 80%)',
+          }}
+        />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <FadeUp className="text-center mb-16">
             <p className="text-brand-400 font-semibold text-sm uppercase tracking-[0.2em] mb-4">

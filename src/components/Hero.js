@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import FadeUp from './FadeUp';
+import AnoAI from '@/components/ui/animated-shader-background';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -13,11 +14,9 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center hero-glow overflow-hidden">
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-1/4 -right-32 w-[500px] h-[500px] bg-brand-600/8 rounded-full blur-[100px] transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} />
-        <div className={`absolute bottom-1/4 -left-32 w-[400px] h-[400px] bg-fire-500/8 rounded-full blur-[80px] transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`} />
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-900/10 rounded-full blur-[120px] transition-opacity duration-1500 delay-500 ${mounted ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Animated shader background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <AnoAI />
       </div>
 
       <div className="w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
