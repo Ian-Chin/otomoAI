@@ -287,34 +287,6 @@ section {
   transform: translateY(-3px) scale(1.05);
 }
 
-/* ── Smooth section transitions ── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ── Counter animation for stats ── */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Scroll indicator pulse ── */
-@keyframes scroll-hint {
-  0%, 100% { opacity: 0.4; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(6px); }
-}
-
-.scroll-hint {
-  animation: scroll-hint 2s ease-in-out infinite;
-}
-
 /* ── Glass card shine on hover ── */
 .glass-shine {
   position: relative;

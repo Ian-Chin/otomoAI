@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import FadeUp from './FadeUp';
-import AnoAI from '@/components/ui/animated-shader-background';
+
+const AnoAI = dynamic(() => import('@/components/ui/animated-shader-background'), {
+  ssr: false,
+});
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -70,6 +74,7 @@ export default function Hero() {
               width={1200}
               height={800}
               priority
+              sizes="(max-width: 1024px) 100vw, 55vw"
               className="w-full lg:max-w-none lg:w-[55vw] rounded-l-3xl object-cover object-left"
             />
             {/* Right edge blur fade */}
