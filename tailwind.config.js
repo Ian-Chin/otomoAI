@@ -38,6 +38,7 @@ module.exports = {
         'fade-in': 'fadeIn 0.8s ease forwards',
         'scale-in': 'scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'grain': 'grain 8s steps(10) infinite',
+        'scroll': 'scroll 25s linear infinite',
       },
       keyframes: {
         float: {
@@ -63,6 +64,10 @@ module.exports = {
           '50%': { transform: 'translate(12%, 9%)' },
           '70%': { transform: 'translate(9%, 4%)' },
           '90%': { transform: 'translate(-1%, 7%)' },
+        },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
     },
