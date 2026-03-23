@@ -1,0 +1,151 @@
+{
+  "name": "WhatsApp Booking Bot - Car Modshop",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook",
+        "options": {}
+      },
+      "id": "1",
+      "name": "WhatsApp Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4",
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "content": "You are a helpful and professional customer service AI for 'otomoAI Car Modshop'. Your goal is to interpret the user's inquiry, answer questions about car modifications, and collect lead information (Car Model, Year, Requested Service) if they want to book.\n\nBe concise and friendly."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.body.entry[0].changes[0].value.messages[0].text.body }}"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "OpenAI - Process Intent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Name|title",
+              "titleValue": "={{ $node[\"WhatsApp Webhook\"].json.body.entry[0].changes[0].value.contacts[0].profile.name }}"
+            },
+            {
+              "key": "Phone|rich_text",
+              "richTextValue": "={{ $node[\"WhatsApp Webhook\"].json.body.entry[0].changes[0].value.messages[0].from }}"
+            },
+            {
+              "key": "Inquiry|rich_text",
+              "richTextValue": "={{ $node[\"WhatsApp Webhook\"].json.body.entry[0].changes[0].value.messages[0].text.body }}"
+            },
+            {
+              "key": "AI Response Formulated|rich_text",
+              "richTextValue": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "id": "3",
+      "name": "Save Lead to Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/PHONE_NUMBER_ID/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_META_ACCESS_TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $node[\"WhatsApp Webhook\"].json.body.entry[0].changes[0].value.messages[0].from }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"{{ $node[\"OpenAI - Process Intent\"].json.message.content }}\"\n  }\n}",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Send WhatsApp Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        850,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "WhatsApp Webhook": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Process Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Process Intent": {
+      "main": [
+        [
+          {
+            "node": "Save Lead to Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Lead to Notion": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
