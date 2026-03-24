@@ -63,7 +63,7 @@ export default function SocialProof() {
         <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#08090E] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#08090E] to-transparent z-10 pointer-events-none" />
 
-        <div className="flex items-center gap-14 animate-scroll w-max">
+        <div className="flex items-center gap-14 animate-scroll w-max will-change-transform">
           {doubled.map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
