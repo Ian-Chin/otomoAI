@@ -12,8 +12,12 @@ const AnoAI = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      powerPreference: 'low-power',
+    });
+    // Cap pixel ratio at 1.5 to reduce GPU load on high-DPI screens
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
@@ -30,8 +34,6 @@ const AnoAI = () => {
       fragmentShader: `
         uniform float iTime;
         uniform vec2 iResolution;
-
-        #define NUM_OCTAVES 3
 
         float rand(vec2 n) {
           return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
@@ -53,7 +55,7 @@ const AnoAI = () => {
           float a = 0.3;
           vec2 shift = vec2(100);
           mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-          for (int i = 0; i < NUM_OCTAVES; ++i) {
+          for (int i = 0; i < 2; ++i) {
             v += a * noise(x);
             x = rot * x * 2.0 + shift;
             a *= 0.4;
@@ -69,9 +71,9 @@ const AnoAI = () => {
 
           float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
 
-          for (float i = 0.0; i < 20.0; i++) {
+          for (float i = 0.0; i < 12.0; i++) {
             v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
-            float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 20.0));
+            float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 12.0));
             vec4 auroraColors = vec4(
               0.7 + 0.3 * sin(i * 0.2 + iTime * 0.4),
               0.1 + 0.2 * cos(i * 0.3 + iTime * 0.5),
@@ -79,7 +81,7 @@ const AnoAI = () => {
               1.0
             );
             vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));
-            float thinnessFactor = smoothstep(0.0, 1.0, i / 20.0) * 0.6;
+            float thinnessFactor = smoothstep(0.0, 1.0, i / 12.0) * 0.6;
             o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;
           }
 
@@ -95,15 +97,21 @@ const AnoAI = () => {
 
     let frameId: number;
     let isVisible = true;
+    let lastRenderTime = 0;
+    const FRAME_INTERVAL = 1000 / 30; // Cap at 30fps
 
-    const animate = () => {
-      if (isVisible) {
-        material.uniforms.iTime.value += 0.016;
-        renderer.render(scene, camera);
-      }
+    const animate = (now: number) => {
       frameId = requestAnimationFrame(animate);
+      if (!isVisible) return;
+
+      const delta = now - lastRenderTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastRenderTime = now - (delta % FRAME_INTERVAL);
+
+      material.uniforms.iTime.value += 0.016;
+      renderer.render(scene, camera);
     };
-    animate();
+    frameId = requestAnimationFrame(animate);
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
