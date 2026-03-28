@@ -1,0 +1,299 @@
+{
+    "nodes": [
+        {
+            "parameters": {},
+            "id": "f066a530-9eeb-4bea-9c8b-416b7c051770",
+            "name": "Manual Trigger",
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                224,
+                -32
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const cities = [\n  \"Kuala Lumpur\", \"Petaling Jaya\", \"Shah Alam\", \"Klang\", \"Subang Jaya\",\n  \"Penang\", \"George Town\", \"Ipoh\", \"Johor Bahru\", \"Melaka\",\n  \"Seremban\", \"Kuantan\", \"Kota Bharu\", \"Kuala Terengganu\",\n  \"Alor Setar\", \"Taiping\", \"Batu Pahat\", \"Sungai Petani\"\n];\n\nconst niches = [\n  \"Performance tuning modshop\",\n  \"Continental car specialist\",\n  \"Premium auto detailing\",\n  \"Superbike service center\",\n  \"Recon car dealer\"\n];\n\nconst results = [];\n\nfor (const city of cities) {\n  for (const niche of niches) {\n    results.push({ json: { searchQuery: `${niche} ${city} Malaysia` } });\n  }\n}\n\nreturn results;"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                448,
+                -32
+            ],
+            "id": "63f2b72b-30de-4594-ba1f-d8b86a28e5eb",
+            "name": "Search Queries (West Malaysia)"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 1
+                    },
+                    "conditions": [
+                        {
+                            "id": "rating-check",
+                            "leftValue": "={{ $json.rating }}",
+                            "rightValue": 4,
+                            "operator": {
+                                "type": "number",
+                                "operation": "gte"
+                            }
+                        },
+                        {
+                            "id": "ac182439-0617-4fac-b289-a228d86e73b8",
+                            "leftValue": "={{ $json.formattedAddress }}",
+                            "rightValue": "Sabah",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notContains"
+                            }
+                        },
+                        {
+                            "id": "dd302544-3499-4202-a319-c1c96f743d9a",
+                            "leftValue": "={{ $json.formattedAddress }}",
+                            "rightValue": "Sarawak",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notContains"
+                            }
+                        },
+                        {
+                            "id": "547dbefd-7290-4897-bae7-088cad74c78d",
+                            "leftValue": "={{ $json.userRatingCount }}",
+                            "rightValue": 15,
+                            "operator": {
+                                "type": "number",
+                                "operation": "gte"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "id": "de2746a9-027a-433e-9491-4d67ed904823",
+            "name": "Filter West Malaysia Premium",
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2,
+            "position": [
+                1344,
+                -32
+            ]
+        },
+        {
+            "parameters": {
+                "compare": "selectedFields",
+                "fieldsToCompare": "formattedAddress",
+                "options": {}
+            },
+            "id": "c58d2d11-8ec3-4fd7-8b3e-a1dab180d752",
+            "name": "Remove Duplicates1",
+            "type": "n8n-nodes-base.removeDuplicates",
+            "typeVersion": 1,
+            "position": [
+                1120,
+                -32
+            ]
+        },
+        {
+            "parameters": {
+                "resource": "databasePage",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "32b79f95-0319-8028-a601-e433eca3c3f4",
+                    "mode": "list"
+                },
+                "propertiesUi": {
+                    "propertyValues": [
+                        {
+                            "key": "Name|title",
+                            "title": "={{ $json.displayName.text }}"
+                        },
+                        {
+                            "key": "Phone|rich_text",
+                            "textContent": "={{ $json.nationalPhoneNumber || \"N/A\" }}"
+                        },
+                        {
+                            "key": "Address|rich_text",
+                            "textContent": "={{ $json.formattedAddress }}"
+                        },
+                        {
+                            "key": "Rating|number",
+                            "numberValue": "={{ $json.rating || 0 }}"
+                        },
+                        {
+                            "key": "Review Count|number",
+                            "numberValue": "={{ $json.userRatingCount || 0 }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.notion",
+            "typeVersion": 2.2,
+            "position": [
+                1792,
+                -32
+            ],
+            "id": "abbb4057-0a9e-4c89-808f-f2e45857dfd7",
+            "name": "Notion Save1",
+            "credentials": {
+                "notionApi": {
+                    "id": "x63YWiS7ZWjTz05S",
+                    "name": "Notion account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://places.googleapis.com/v1/places:searchText",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "X-Goog-Api-Key",
+                            "value": "AIzaSyBWNQIL4sgIonjfnRJVjtIlDN6wdGmwKHs"
+                        },
+                        {
+                            "name": "X-Goog-FieldMask",
+                            "value": "places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.rating,places.userRatingCount"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"textQuery\": \"{{ $json.searchQuery }}\"\n}",
+                "options": {}
+            },
+            "id": "dbb0dc28-01d6-4b7e-a525-8666a8d8fe37",
+            "name": "Google Places API1",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.1,
+            "position": [
+                672,
+                -32
+            ]
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "places",
+                "options": {}
+            },
+            "id": "39c6e60e-e2ae-4226-9674-97caf97cde1a",
+            "name": "Split JSON Array1",
+            "type": "n8n-nodes-base.itemLists",
+            "typeVersion": 3,
+            "position": [
+                896,
+                -32
+            ]
+        },
+        {
+            "parameters": {
+                "amount": 2
+            },
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [
+                1568,
+                -32
+            ],
+            "id": "db44ebda-ef60-4d7b-abf2-40e2bec179ff",
+            "name": "Wait (Rate Limit)1",
+            "webhookId": "897f7b7a-ef9c-4cc2-ac0c-1a10b64da602"
+        }
+    ],
+    "connections": {
+        "Manual Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Search Queries (West Malaysia)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Search Queries (West Malaysia)": {
+            "main": [
+                [
+                    {
+                        "node": "Google Places API1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Filter West Malaysia Premium": {
+            "main": [
+                [
+                    {
+                        "node": "Wait (Rate Limit)1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Remove Duplicates1": {
+            "main": [
+                [
+                    {
+                        "node": "Filter West Malaysia Premium",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Places API1": {
+            "main": [
+                [
+                    {
+                        "node": "Split JSON Array1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Split JSON Array1": {
+            "main": [
+                [
+                    {
+                        "node": "Remove Duplicates1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Wait (Rate Limit)1": {
+            "main": [
+                [
+                    {
+                        "node": "Notion Save1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "032a5dcf94359b78bf9f7a7c858277f1854fdb1ed923a7f5c586f3255c318807"
+    }
+}

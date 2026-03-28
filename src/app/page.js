@@ -9,7 +9,6 @@ const SolutionIntro = dynamic(() => import('@/components/SolutionIntro'));
 const AdminSuite = dynamic(() => import('@/components/AdminSuite'));
 const LeadGenFlow = dynamic(() => import('@/components/LeadGenFlow'));
 const PostServiceCRM = dynamic(() => import('@/components/PostServiceCRM'));
-const ModVisualizer = dynamic(() => import('@/components/ModVisualizer'));
 const ROICalculator = dynamic(() => import('@/components/ROICalculator'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
 const FAQ = dynamic(() => import('@/components/FAQ'));
@@ -27,7 +26,6 @@ export default function Home() {
       <AdminSuite />
       <LeadGenFlow />
       <PostServiceCRM />
-      <ModVisualizer />
       <ROICalculator />
       <Testimonials />
       <FAQ />

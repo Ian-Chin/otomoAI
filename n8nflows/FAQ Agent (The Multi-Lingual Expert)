@@ -1,0 +1,142 @@
+{
+    "nodes": [
+        {
+            "parameters": {},
+            "id": "0a2f98ff-50a2-421b-8017-e97563b2bc98",
+            "name": "Execute Workflow Trigger",
+            "type": "n8n-nodes-base.executeWorkflowTrigger",
+            "typeVersion": 1,
+            "position": [
+                16,
+                -128
+            ]
+        },
+        {
+            "parameters": {
+                "phoneNumberId": "={{ $node[\"Execute Workflow Trigger\"].json[\"phoneNumberId\"] }}",
+                "recipientPhoneNumber": "={{ $node[\"Execute Workflow Trigger\"].json[\"from\"] }}"
+            },
+            "id": "f4041fdc-5c7d-4200-bbc3-3e41c23615ef",
+            "name": "WhatsApp Send",
+            "type": "n8n-nodes-base.whatsApp",
+            "typeVersion": 1,
+            "position": [
+                592,
+                -128
+            ],
+            "webhookId": "4fbdf300-565a-4db8-9de2-182179bdccc5",
+            "credentials": {
+                "whatsAppApi": {
+                    "id": "5SsLubfc4NfazjF8",
+                    "name": "WhatsApp account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {
+                    "systemMessage": "=You are a customer service assistant for a {{ $json.niche }}. Reply in the same language as the customer. Keep it brief."
+                }
+            },
+            "id": "8a926d80-9e0c-438c-8385-5b0e3092dbb7",
+            "name": "AI Agent1",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.6,
+            "position": [
+                240,
+                -128
+            ]
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-3-flash-preview",
+                "options": {}
+            },
+            "id": "f29c5a1f-5ac7-4a1e-9ed8-edd5e1cc0764",
+            "name": "Gemini 3 Flash1",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                256,
+                96
+            ],
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "0TmTzlWHa8aLLm0T",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "sessionIdType": "customKey",
+                "sessionKey": "=={{ $node[\"Execute Workflow Trigger\"].json[\"from\"] }}"
+            },
+            "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+            "typeVersion": 1.5,
+            "position": [
+                384,
+                96
+            ],
+            "id": "fe942ce0-8168-4ddf-9628-d0a4ed7fd67d",
+            "name": "Redis Chat Memory",
+            "credentials": {
+                "redis": {
+                    "id": "XL91hY6pdww1F4tU",
+                    "name": "Redis account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Execute Workflow Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "AI Agent1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI Agent1": {
+            "main": [
+                [
+                    {
+                        "node": "WhatsApp Send",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini 3 Flash1": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "AI Agent1",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Redis Chat Memory": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "AI Agent1",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "032a5dcf94359b78bf9f7a7c858277f1854fdb1ed923a7f5c586f3255c318807"
+    }
+}
