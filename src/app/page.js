@@ -26,9 +26,7 @@ const LeadGenFlow = dynamic(() => import('@/components/LeadGenFlow'), {
 const PostServiceCRM = dynamic(() => import('@/components/PostServiceCRM'), {
   loading: () => <TwoColSkeleton />,
 });
-const ModVisualizer = dynamic(() => import('@/components/ModVisualizer'), {
-  loading: () => <SectionSkeleton />,
-});
+
 const ROICalculator = dynamic(() => import('@/components/ROICalculator'), {
   loading: () => <CenteredSkeleton />,
 });
@@ -56,7 +54,7 @@ export default function Home() {
       <AdminSuite />
       <LeadGenFlow />
       <PostServiceCRM />
-      <ModVisualizer />
+
       <ROICalculator />
       <Testimonials />
       <FAQ />

@@ -28,16 +28,7 @@ const features = [
       </svg>
     ),
   },
-  {
-    title: 'Mod Visualizer',
-    desc: 'AI-powered before/after previews',
-    icon: (
-      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-      </svg>
-    ),
-  },
+
 ];
 
 export default function SolutionIntro() {
@@ -54,7 +45,7 @@ export default function SolutionIntro() {
             A complete suite of AI-powered tools designed specifically for auto workshops and premium bike mechanics. From the first ad click to the five-star review.
           </p>
         </FadeUp>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-16 stagger-children">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-16 stagger-children">
           {features.map((f) => (
             <FadeUp key={f.title} className="glass rounded-2xl p-5 sm:p-6 card-hover text-center group">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-600 to-fire-500 flex items-center justify-center mx-auto mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
