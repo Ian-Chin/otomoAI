@@ -1,0 +1,210 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "id": "08928c9c-9a4e-4871-a17a-489070086d9e",
+      "name": "WhatsApp Trigger",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        224
+      ],
+      "webhookId": "60cca81e-4177-4d39-a4f6-cc839a6b2793",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "FRkNlNmBZmFCiPyj",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "32e79f95-0319-8171-a368-ea66f74e082b",
+          "mode": "list",
+          "cachedResultName": "Otomo AI - Master Dashboard",
+          "cachedResultUrl": "https://www.notion.so/32e79f9503198171a368ea66f74e082b"
+        },
+        "options": {}
+      },
+      "id": "1641a9da-e4ea-4a58-83c3-2e24dae17428",
+      "name": "Check Master Dashboard",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        224
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "x63YWiS7ZWjTz05S",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.property_status }}",
+              "value2": "Active"
+            }
+          ]
+        }
+      },
+      "id": "b10aaf3c-b562-4865-9b00-7b69af5bcd56",
+      "name": "Is Client Active?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6e8c91ca-133f-441b-8d8c-48af5159e388",
+      "name": "Intent Classifier",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        432
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0TmTzlWHa8aLLm0T",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "AIMessagePromptTemplate",
+              "message": "Classify intent as 'FAQ' or 'BOOKING'. Output one word only."
+            }
+          ]
+        }
+      },
+      "id": "1ad69f5d-a9ad-4fe5-9d30-c20956d04bee",
+      "name": "Detect Intent",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1,
+      "position": [
+        48,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "zfVomznPkfM6GZZk",
+        "options": {}
+      },
+      "id": "8accd6e5-b706-4137-9cd1-70a67ed84d36",
+      "name": "Go to FAQ",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        400,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "G5b0lMaRcUte9WC1",
+        "options": {}
+      },
+      "id": "bacb8576-af76-4088-b916-a3540536347d",
+      "name": "Go to Booking",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        400,
+        320
+      ]
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check Master Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Master Dashboard": {
+      "main": [
+        [
+          {
+            "node": "Is Client Active?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Client Active?": {
+      "main": [
+        [
+          {
+            "node": "Detect Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intent Classifier": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Detect Intent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect Intent": {
+      "main": [
+        [
+          {
+            "node": "Go to FAQ",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Go to Booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "032a5dcf94359b78bf9f7a7c858277f1854fdb1ed923a7f5c586f3255c318807"
+  }
+}

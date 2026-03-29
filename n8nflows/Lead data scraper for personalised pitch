@@ -1,0 +1,267 @@
+{
+    "nodes": [
+        {
+            "parameters": {},
+            "id": "dd949adf-adaa-426a-8ea3-727c7588561c",
+            "name": "Start Mass Enrichment",
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -256,
+                -96
+            ]
+        },
+        {
+            "parameters": {
+                "resource": "databasePage",
+                "operation": "getAll",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "32b79f95-0319-8028-a601-e433eca3c3f4",
+                    "mode": "list",
+                    "cachedResultName": "OtomoAI Scraped Leads",
+                    "cachedResultUrl": "https://www.notion.so/32b79f9503198028a601e433eca3c3f4"
+                },
+                "returnAll": true,
+                "filterType": "manual",
+                "matchType": "allFilters",
+                "filters": {
+                    "conditions": [
+                        {
+                            "key": "Agent_Knowledge|rich_text",
+                            "condition": "is_empty"
+                        },
+                        {
+                            "key": "Name|title",
+                            "condition": "is_not_empty"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "68e9e2ec-862b-4ef6-9d9a-77007f76552c",
+            "name": "Get Un-Researched Leads",
+            "type": "n8n-nodes-base.notion",
+            "typeVersion": 2,
+            "position": [
+                -32,
+                -96
+            ],
+            "credentials": {
+                "notionApi": {
+                    "id": "x63YWiS7ZWjTz05S",
+                    "name": "Notion account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "id": "8756c77d-2993-4a30-97fc-c4cb5b7ea505",
+            "name": "Process 1 by 1",
+            "type": "n8n-nodes-base.splitInBatches",
+            "typeVersion": 3,
+            "position": [
+                192,
+                -96
+            ]
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=Search specifically for \"RM\" or \"Price\" mentions in customer reviews, Facebook captions, or photo descriptions for {{ $json.property_name }} at {{ $json.property_address }}.\n\nInstructions:\n\nIf you find a review that says \"Paid RM300 for polishing\", extract it!\n\nIf you find a post saying \"Starting from RM1,200\", extract it!\n\nDO NOT give me a range (e.g. RM50 - RM100) if you can find a specific price.\n\nIf you find absolutely zero RM mentions after 10 results, write \"PRICE HIDDEN: Need to WhatsApp\" instead of giving an estimate",
+                "options": {
+                    "systemMessage": "=You are a Private Investigator for Automotive Pricing.\n\nGoal: Find the EXACT RM prices for {{ $json.property_name }}.\n\nInstructions:\n\nUse your search tool to find: \"Facebook posts\", \"Google Reviews\", or \"Images\" that mention specific RM prices.\n\nIf you find a review saying \"I spent RM500 on coating here\", list it as: \"Customer Review: RM500 (Coating)\".\n\nIf NO exact prices are found after 3 searches, do NOT give a market range. Instead, provide a \"WhatsApp Quote Request\" template including the car model \"Toyota Alphard\" (as an example) so I can ask them directly.\n\nFormat: Clean Markdown.",
+                    "maxIterations": 10
+                }
+            },
+            "id": "87f0c276-3525-4333-b517-39af0ea3ff23",
+            "name": "AI Web Researcher",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.6,
+            "position": [
+                416,
+                -224
+            ]
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-3-flash-preview",
+                "options": {
+                    "maxOutputTokens": 2000,
+                    "temperature": 0.7
+                }
+            },
+            "id": "492bc604-ac6b-4f2f-bb22-a7849ab8f023",
+            "name": "Gemini 3 Flash",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                432,
+                0
+            ],
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "0TmTzlWHa8aLLm0T",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "resource": "databasePage",
+                "operation": "update",
+                "pageId": {
+                    "__rl": true,
+                    "value": "=={{ $('Process 1 by 1').item.json.id }}",
+                    "mode": "id"
+                },
+                "propertiesUi": {
+                    "propertyValues": [
+                        {
+                            "key": "=Agent_Knowledge|rich_text",
+                            "textContent": "={{ $json.output }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "05334128-6dda-4b5d-8bc3-0f96f341f23a",
+            "name": "Save to Notion",
+            "type": "n8n-nodes-base.notion",
+            "typeVersion": 2,
+            "position": [
+                768,
+                -96
+            ],
+            "credentials": {
+                "notionApi": {
+                    "id": "x63YWiS7ZWjTz05S",
+                    "name": "Notion account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "toolDescription": "Use this tool to search Google. The input should be a search query string.",
+                "method": "POST",
+                "url": "https://google.serper.dev/search",
+                "sendHeaders": true,
+                "parametersHeaders": {
+                    "values": [
+                        {
+                            "name": "X-API-KEY",
+                            "valueProvider": "fieldValue",
+                            "value": "a9808ebdf7f50363b7052bce5cfd1b507b39679f"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "valueProvider": "fieldValue",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"q\": \"={{ $fromAI('query') }}\"\n}",
+                "placeholderDefinitions": {
+                    "values": []
+                }
+            },
+            "id": "cd0d9667-b944-430c-b855-2b1328e24d2b",
+            "name": "Google Search",
+            "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+            "typeVersion": 1,
+            "position": [
+                560,
+                0
+            ]
+        }
+    ],
+    "connections": {
+        "Start Mass Enrichment": {
+            "main": [
+                [
+                    {
+                        "node": "Get Un-Researched Leads",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Un-Researched Leads": {
+            "main": [
+                [
+                    {
+                        "node": "Process 1 by 1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Process 1 by 1": {
+            "main": [
+                [],
+                [
+                    {
+                        "node": "AI Web Researcher",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI Web Researcher": {
+            "main": [
+                [
+                    {
+                        "node": "Save to Notion",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini 3 Flash": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "AI Web Researcher",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Save to Notion": {
+            "main": [
+                [
+                    {
+                        "node": "Process 1 by 1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Search": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "AI Web Researcher",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "032a5dcf94359b78bf9f7a7c858277f1854fdb1ed923a7f5c586f3255c318807"
+    }
+}

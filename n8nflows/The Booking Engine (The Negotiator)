@@ -1,0 +1,178 @@
+{
+    "nodes": [
+        {
+            "parameters": {},
+            "id": "0dae4ce4-5d05-4467-a030-c7ddc1b5fd4d",
+            "name": "Execute Workflow Trigger",
+            "type": "n8n-nodes-base.executeWorkflowTrigger",
+            "typeVersion": 1,
+            "position": [
+                256,
+                64
+            ]
+        },
+        {
+            "parameters": {
+                "options": {
+                    "systemMessage": "=You are Ah Boy. Use the Notion tool to check availability for this {{ $json.niche }}. If they confirm, output [APPROVAL_REQUESTED]."
+                }
+            },
+            "id": "deb79827-d751-4f32-83db-53650c4239f5",
+            "name": "AI Agent",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.6,
+            "position": [
+                528,
+                64
+            ]
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "id": "12c53c62-b8c9-4436-88a7-f2187c9ed31a",
+            "name": "Gemini 3 Flash",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                416,
+                288
+            ],
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "0TmTzlWHa8aLLm0T",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "phoneNumberId": "={{ $node[\"Execute Workflow Trigger\"].json[\"phoneNumberId\"] }}",
+                "recipientPhoneNumber": "={{ $node[\"Execute Workflow Trigger\"].json[\"from\"] }}"
+            },
+            "id": "7e627e99-e0cb-421f-ba1f-d8dddebd50c6",
+            "name": "WhatsApp Send",
+            "type": "n8n-nodes-base.whatsApp",
+            "typeVersion": 1,
+            "position": [
+                928,
+                144
+            ],
+            "webhookId": "30f6a1a2-1ef8-4eb9-b2c1-d43d14865fdb",
+            "credentials": {
+                "whatsAppApi": {
+                    "id": "5SsLubfc4NfazjF8",
+                    "name": "WhatsApp account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "resource": "database",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "32b79f95-0319-8097-ad25-c1a606f707e7",
+                    "mode": "list",
+                    "cachedResultName": "Calendar",
+                    "cachedResultUrl": "https://www.notion.so/32b79f9503198097ad25c1a606f707e7"
+                }
+            },
+            "type": "n8n-nodes-base.notionTool",
+            "typeVersion": 2.2,
+            "position": [
+                704,
+                288
+            ],
+            "id": "3d33f8b9-b2aa-4219-834f-7e28d0e9cde1",
+            "name": "Get a database in Notion",
+            "credentials": {
+                "notionApi": {
+                    "id": "x63YWiS7ZWjTz05S",
+                    "name": "Notion account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "sessionIdType": "customKey",
+                "sessionKey": "=={{ $node[\"Execute Workflow Trigger\"].json[\"from\"] }}"
+            },
+            "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+            "typeVersion": 1.5,
+            "position": [
+                576,
+                320
+            ],
+            "id": "d233f0b1-7474-4616-82ce-9d96d4a6cec2",
+            "name": "Redis Chat Memory",
+            "credentials": {
+                "redis": {
+                    "id": "XL91hY6pdww1F4tU",
+                    "name": "Redis account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Execute Workflow Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI Agent": {
+            "main": [
+                [
+                    {
+                        "node": "WhatsApp Send",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini 3 Flash": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get a database in Notion": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Redis Chat Memory": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "032a5dcf94359b78bf9f7a7c858277f1854fdb1ed923a7f5c586f3255c318807"
+    }
+}
